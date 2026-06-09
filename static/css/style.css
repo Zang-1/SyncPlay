@@ -9,6 +9,7 @@
     --border-color: rgba(255, 255, 255, 0.1);
     --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 * {
@@ -18,7 +19,7 @@
 }
 
 body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-family);
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
@@ -61,15 +62,15 @@ body {
 }
 
 .nav-link {
-    color: var(--text-muted);
+    color: var(--text-color);
     text-decoration: none;
-    font-weight: 500;
     cursor: pointer;
-    transition: var(--transition);
+    transition: color 0.3s ease;
+    font-weight: 500;
 }
 
-.nav-link:hover, .nav-link.active {
-    color: var(--text-color);
+.nav-link:hover {
+    color: var(--primary-color);
 }
 
 .btn {
@@ -99,6 +100,53 @@ body {
 .btn-secondary:hover {
     background-color: rgba(255, 255, 255, 0.1);
     transform: translateY(-2px);
+}
+
+.btn-upload {
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.btn-upload:hover {
+    background-color: #00e67a;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+}
+
+.btn-admin {
+    background: linear-gradient(135deg, #8b5cf6, #d946ef);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.btn-admin:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(217, 70, 239, 0.4);
+}
+
+.btn-logout {
+    background: transparent;
+    color: #ef4444;
+    border: 1px solid #ef4444;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.btn-logout:hover {
+    background: #ef4444;
+    color: white;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
 }
 
 /* Main Container */
@@ -222,18 +270,17 @@ body {
 }
 
 .media-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
     overflow: hidden;
-    transition: var(--transition);
     cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.05);
 }
-
 .media-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--glass-shadow);
-    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 255, 136, 0.15);
+    border-color: rgba(0, 255, 136, 0.3);
 }
 
 .media-card-thumbnail {
@@ -244,6 +291,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
     color: var(--text-muted);
 }
 
@@ -265,21 +313,20 @@ body {
 .badge-spotify { color: #10b981; border: 1px solid #10b981; }
 
 .media-card-content {
-    padding: 1.25rem;
+    padding: 1rem;
 }
 
 .media-card-title {
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 1.15rem;
     margin-bottom: 0.5rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: var(--text-color);
 }
 
 .media-card-meta {
-    font-size: 0.85rem;
-    color: var(--text-muted);
+    font-size: 0.875rem;
+    color: #9ca3af; /* Tối ưu độ tương phản */
+    opacity: 0.8;
     display: flex;
     justify-content: space-between;
 }

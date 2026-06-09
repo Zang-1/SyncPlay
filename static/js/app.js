@@ -202,10 +202,21 @@ const app = {
 
             let badgeClass = m.sourceType === 'LOCAL' ? 'badge-local' : (m.sourceType === 'YOUTUBE' ? 'badge-youtube' : 'badge-spotify');
             
+            let thumbnailContent = '';
+            if (m.sourceType === 'YOUTUBE') {
+                const ytId = m.resource.split('v=')[1]?.split('&')[0] || m.resource.split('/').pop();
+                thumbnailContent = `<img src="https://img.youtube.com/vi/${ytId}/maxresdefault.jpg" style="width:100%;height:100%;object-fit:cover;">`;
+            } else {
+                thumbnailContent = `
+                <div style="width:100%; height:100%; background: linear-gradient(135deg, #1e1b4b, #3b82f6); display: flex; align-items: center; justify-content: center;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.8;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                </div>`;
+            }
+            
             card.innerHTML = `
                 <div class="media-card-thumbnail">
                     <span class="media-source-badge ${badgeClass}">${m.sourceType}</span>
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    ${thumbnailContent}
                 </div>
                 <div class="media-card-content">
                     <div class="media-card-title" title="${m.title}">${m.title}</div>

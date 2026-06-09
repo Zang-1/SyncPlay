@@ -16,11 +16,12 @@
         <div class="navbar-menu" id="navMenu">
             <!-- Dynamic content based on auth state -->
             <a class="nav-link" onclick="app.navigate('home')">Trang chủ</a>
-            <div id="navAuthItems" style="display: none;">
-                <button class="btn btn-secondary" id="navAdminBtn" style="display: none;" onclick="app.navigate('admin')">Admin Panel</button>
-                <button class="btn btn-secondary" onclick="app.navigate('upload')">Tải lên</button>
-                <span class="nav-link" id="navUsername"></span>
-                <button class="btn btn-secondary" onclick="app.logout()">Đăng xuất</button>
+            <div id="navAuthItems" style="display: none; align-items: center; gap: 1rem;">
+                <button class="btn btn-upload" onclick="app.navigate('upload')">Tải lên</button>
+                <button class="btn btn-admin" id="navAdminBtn" style="display: none;" onclick="app.navigate('admin')">Admin Panel</button>
+                <div style="width: 1px; height: 24px; background: rgba(255,255,255,0.2); margin: 0 0.5rem;"></div>
+                <span class="nav-link" id="navUsername" style="cursor: default;"></span>
+                <button class="btn btn-logout" onclick="app.logout()">Đăng xuất</button>
             </div>
             <div id="navGuestItems">
                 <button class="btn" onclick="app.navigate('auth')">Đăng nhập</button>
