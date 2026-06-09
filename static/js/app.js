@@ -42,6 +42,14 @@ const app = {
         // Hide all views
         document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
         
+        // Stop playing media when navigating away from watch page
+        if (view !== 'watch') {
+            const playerContainer = document.getElementById('playerContainer');
+            if (playerContainer) {
+                playerContainer.innerHTML = '';
+            }
+        }
+
         // Show target view
         const viewEl = document.getElementById(`view-${view}`);
         if (viewEl) {
