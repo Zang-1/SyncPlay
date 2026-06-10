@@ -6,7 +6,9 @@ const app = {
         isAdmin: localStorage.getItem('syncplay_isAdmin') === 'true',
         isLoginMode: true, // Auth view mode: true = login, false = register
         currentUploadTab: 'LOCAL',
-        currentMediaId: null
+        currentMediaId: null,
+        currentSearch: '',
+        currentCategory: 'Tất cả'
     },
 
     init() {
@@ -182,7 +184,11 @@ const app = {
     async loadTrending() {
         this.showLoader(true);
         try {
-            const response = await fetch('/api/media/trending');
+            const queryParams = new URLSearchParams();
+            if (this.state.currentSearch) queryParams.append('search', this.state.currentSearch);
+            if (this.state.currentCategory && this.state.currentCategory !== 'Tất cả') queryParams.append('category', this.state.currentCategory);
+            
+            const response = await fetch(`/api/media/trending?${queryParams.toString()}`);
             if(response.ok) {
                 const data = await response.json();
                 this.renderMediaGrid(data);
@@ -192,6 +198,26 @@ const app = {
         } finally {
             this.showLoader(false);
         }
+    },
+
+    handleSearch(event) {
+        if (this.searchTimeout) clearTimeout(this.searchTimeout);
+        this.searchTimeout = setTimeout(() => {
+            this.state.currentSearch = event.target.value;
+            this.loadTrending();
+        }, 500);
+    },
+
+    setCategory(category) {
+        this.state.currentCategory = category;
+        document.querySelectorAll('.btn-category').forEach(btn => {
+            if (btn.textContent === category) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        this.loadTrending();
     },
 
     renderMediaGrid(mediaList) {
@@ -229,7 +255,7 @@ const app = {
                 <div class="media-card-content">
                     <div class="media-card-title" title="${m.title}">${m.title}</div>
                     <div class="media-card-meta">
-                        <span>${m.channelName}</span>
+                        <span>${m.channelName} <span class="badge-category">${m.category}</span></span>
                         <span>${m.views} lượt xem</span>
                     </div>
                 </div>
@@ -255,8 +281,10 @@ const app = {
     async handleUpload(event) {
         event.preventDefault();
         const title = document.getElementById('uploadTitle').value;
+        const category = document.getElementById('uploadCategory').value;
         const formData = new FormData();
         formData.append('title', title);
+        formData.append('category', category);
 
         let url = '';
         

@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from typing import Optional, List
 
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request, Depends, status
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
@@ -88,6 +88,7 @@ class Media(Base):
     MediaResource = Column(String, nullable=False)
     ViewsCount = Column(Integer, default=0)
     UploadDate = Column(DateTime, default=datetime.utcnow)
+    Category = Column(String(100), default="Khác", nullable=False)
 
 class Comment(Base):
     __tablename__ = "COMMENTS"
@@ -175,6 +176,11 @@ def extract_embed_url(url: str, source_type: str) -> str:
     
     raise HTTPException(status_code=400, detail="Invalid URL format or unsupported SourceType")
 
+# ================= ROOT REDIRECT =================
+@app.get("/")
+async def root():
+    return RedirectResponse(url="/static/index.html")
+
 # ================= AUTH ENDPOINTS =================
 @app.post("/api/auth/register")
 async def register(username: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
@@ -219,9 +225,17 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = 
 
 # ================= MEDIA ENDPOINTS =================
 @app.get("/api/media/trending")
-async def get_trending_media(db: Session = Depends(get_db)):
-    """Lấy danh sách video thịnh hành (sắp xếp theo views)"""
-    media_list = db.query(Media).order_by(Media.ViewsCount.desc()).limit(20).all()
+async def get_trending_media(search: Optional[str] = None, category: Optional[str] = None, db: Session = Depends(get_db)):
+    """Lấy danh sách video thịnh hành (hỗ trợ tìm kiếm và lọc danh mục)"""
+    query = db.query(Media)
+    
+    if search:
+        query = query.filter(Media.Title.ilike(f"%{search}%"))
+        
+    if category and category != "Tất cả":
+        query = query.filter(Media.Category == category)
+        
+    media_list = query.order_by(Media.ViewsCount.desc()).limit(50).all()
     result = []
     for m in media_list:
         user = db.query(User).filter(User.UserID == m.UserID).first()
@@ -231,6 +245,7 @@ async def get_trending_media(db: Session = Depends(get_db)):
             "sourceType": m.SourceType,
             "resource": m.MediaResource,
             "views": m.ViewsCount,
+            "category": getattr(m, "Category", "Khác"),
             "channelName": user.Username if user else "Unknown"
         })
     return result
@@ -238,6 +253,7 @@ async def get_trending_media(db: Session = Depends(get_db)):
 @app.post("/api/media/upload")
 async def upload_local_media(
     title: str = Form(...),
+    category: str = Form(...),
     file: UploadFile = File(...),
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
@@ -258,7 +274,8 @@ async def upload_local_media(
         UserID=current_user.UserID,
         Title=title,
         SourceType="LOCAL",
-        MediaResource=f"/static/uploads/{file.filename}"
+        MediaResource=f"/static/uploads/{file.filename}",
+        Category=category
     )
     db.add(new_media)
     db.commit()
@@ -268,6 +285,7 @@ async def upload_local_media(
 @app.post("/api/media/link")
 async def add_link_media(
     title: str = Form(...),
+    category: str = Form(...),
     source_type: str = Form(...),
     url: str = Form(...),
     current_user: User = Depends(get_current_user),
@@ -289,7 +307,8 @@ async def add_link_media(
         UserID=current_user.UserID,
         Title=title,
         SourceType=source_type,
-        MediaResource=embed_url
+        MediaResource=embed_url,
+        Category=category
     )
     db.add(new_media)
     db.commit()
@@ -371,7 +390,10 @@ async def delete_media(media_id: int, current_user: User = Depends(get_current_u
             except Exception:
                 pass
             
-    # Database có Trigger nên tự xóa Comment và Interaction
+    # Explicitly delete child rows to prevent FK constraint violation
+    db.execute(text("DELETE FROM COMMENTS WHERE MediaID = :mid"), {"mid": media_id})
+    db.execute(text("DELETE FROM INTERACTIONS WHERE MediaID = :mid"), {"mid": media_id})
+    
     db.delete(media)
     db.commit()
     return {"message": "Media deleted successfully"}

@@ -38,10 +38,25 @@
 
         <!-- View: Home -->
         <section id="view-home" class="view-section active">
-            <div style="margin-bottom: 2rem;">
-                <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Thịnh hành</h1>
+            <div style="margin-bottom: 1.5rem;">
+                <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Khám Phá</h1>
                 <p style="color: var(--text-muted);">Những video đang được xem nhiều nhất trên hệ thống.</p>
             </div>
+
+            <div class="search-filter-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="🔍 Tìm kiếm bài hát, ca sĩ..." onkeyup="app.handleSearch(event)">
+                <div class="category-filters" id="categoryFilters">
+                    <button class="btn-category active" onclick="app.setCategory('Tất cả')">Tất cả</button>
+                    <button class="btn-category" onclick="app.setCategory('V-Pop')">V-Pop</button>
+                    <button class="btn-category" onclick="app.setCategory('K-Pop')">K-Pop</button>
+                    <button class="btn-category" onclick="app.setCategory('US-UK')">US-UK</button>
+                    <button class="btn-category" onclick="app.setCategory('Rap/Hip-Hop')">Rap/Hip-Hop</button>
+                    <button class="btn-category" onclick="app.setCategory('EDM')">EDM</button>
+                    <button class="btn-category" onclick="app.setCategory('Acoustic/Cover')">Acoustic/Cover</button>
+                    <button class="btn-category" onclick="app.setCategory('Khác')">Khác</button>
+                </div>
+            </div>
+
             <div class="media-grid" id="trendingGrid">
                 <!-- Media cards will be injected here -->
             </div>
@@ -83,6 +98,20 @@
                     <div class="form-group">
                         <label class="form-label">Tiêu đề</label>
                         <input type="text" id="uploadTitle" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Thể loại nhạc</label>
+                        <select id="uploadCategory" class="form-control" required>
+                            <option value="">-- Chọn thể loại --</option>
+                            <option value="V-Pop">V-Pop</option>
+                            <option value="K-Pop">K-Pop</option>
+                            <option value="US-UK">US-UK</option>
+                            <option value="Rap/Hip-Hop">Rap/Hip-Hop</option>
+                            <option value="EDM">EDM</option>
+                            <option value="Acoustic/Cover">Acoustic/Cover</option>
+                            <option value="Khác">Khác</option>
+                        </select>
                     </div>
 
                     <!-- Local Upload -->
