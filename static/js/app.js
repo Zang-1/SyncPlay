@@ -9,17 +9,17 @@ const i18n = {
         username: 'Tên đăng nhập', password: 'Mật khẩu', no_account: 'Chưa có tài khoản?',
         register_now: 'Đăng ký ngay', has_account: 'Đã có tài khoản?', login_now: 'Đăng nhập',
         add_new_video: 'Thêm Video Mới', upload_local_tab: 'Upload File (Local)',
-        upload_link_tab: 'Chèn Link (YouTube/Spotify)', upload_title: 'Tiêu đề',
+        upload_link_tab: 'Chèn Link (YouTube/Spotify/SoundCloud)', upload_title: 'Tiêu đề',
         upload_author: 'Tên tác giả', upload_category: 'Thể loại nhạc (Chọn ít nhất 1)',
         choose_mp4: 'Chọn File MP4', source: 'Nguồn', url_path: 'Đường dẫn URL',
         subscribe: 'Đăng ký', delete_video: 'Xóa Video', edit_video: 'Chỉnh sửa Video',
         add_to_playlist: 'Thêm vào Playlist', comments: 'Bình luận',
         type_comment: 'Viết bình luận...', submit: 'Gửi',
-        admin_settings: '⚙️ Admin Settings', max_total_accounts: 'Max Total Accounts',
+        admin_settings: '<i class="ph ph-gear" style="margin-right: 8px;"></i> Admin Settings', max_total_accounts: 'Max Total Accounts',
         max_total_accounts_desc: 'Số lượng tài khoản tối đa được phép đăng ký.',
         max_uploads_per_user: 'Max Uploads Per User',
         max_uploads_per_user_desc: 'Số lượng video tối đa mỗi người dùng được tải lên.',
-        save_settings: 'Lưu Cài Đặt', admin_manage_users: '👥 Quản Lý Tài Khoản',
+        save_settings: 'Lưu Cài Đặt', admin_manage_users: '<i class="ph ph-users" style="margin-right: 8px;"></i> Quản Lý Tài Khoản',
         admin_reload: 'Tải Lại', delete_selected: 'Xóa Đã Chọn',
         th_username: 'Username', th_password_hash: 'Mật khẩu (Hash)', th_uploads: 'Uploads',
         th_likes: 'Likes', th_dislikes: 'Dislikes', th_actions: 'Thao Tác',
@@ -27,7 +27,7 @@ const i18n = {
         uploads: 'Bài hát', subscribers: 'Người theo dõi', uploaded_songs: 'Bài hát đã tải lên',
         my_playlists: 'Playlist của tôi', create_playlist: '+ Tạo Playlist',
         select_playlist: 'Chọn playlist:', cancel: 'Hủy', save_changes: 'Lưu thay đổi',
-        play_all: '▶ Phát tất cả', history: 'Lịch sử nghe', clear_history: 'Xóa lịch sử',
+        play_all: '<i class="ph ph-play" style="margin-right: 4px;"></i> Phát tất cả', history: 'Lịch sử nghe', clear_history: 'Xóa lịch sử',
         recommended: 'Video đề xuất', liked_songs: 'Bài hát đã thích',
         disliked_songs: 'Bài hát không thích', playlists: 'Playlist',
         subscriptions: 'Kênh đã đăng ký', see_more: 'Xem thêm', delete: 'Xóa',
@@ -50,17 +50,17 @@ const i18n = {
         username: 'Username', password: 'Password', no_account: "Don't have an account?",
         register_now: 'Register now', has_account: 'Already have an account?', login_now: 'Login',
         add_new_video: 'Add New Video', upload_local_tab: 'Upload File (Local)',
-        upload_link_tab: 'Insert Link (YouTube/Spotify)', upload_title: 'Title',
+        upload_link_tab: 'Insert Link (YouTube/Spotify/SoundCloud)', upload_title: 'Title',
         upload_author: 'Author name', upload_category: 'Music genre (Select at least 1)',
         choose_mp4: 'Choose MP4 File', source: 'Source', url_path: 'URL Path',
         subscribe: 'Subscribe', delete_video: 'Delete Video', edit_video: 'Edit Video',
         add_to_playlist: 'Add to Playlist', comments: 'Comments',
         type_comment: 'Write a comment...', submit: 'Submit',
-        admin_settings: '⚙️ Admin Settings', max_total_accounts: 'Max Total Accounts',
+        admin_settings: '<i class="ph ph-gear" style="margin-right: 8px;"></i> Admin Settings', max_total_accounts: 'Max Total Accounts',
         max_total_accounts_desc: 'Maximum number of accounts allowed to register.',
         max_uploads_per_user: 'Max Uploads Per User',
         max_uploads_per_user_desc: 'Maximum number of videos each user can upload.',
-        save_settings: 'Save Settings', admin_manage_users: '👥 Manage Users',
+        save_settings: 'Save Settings', admin_manage_users: '<i class="ph ph-users" style="margin-right: 8px;"></i> Manage Users',
         admin_reload: 'Reload', delete_selected: 'Delete Selected',
         th_username: 'Username', th_password_hash: 'Password (Hash)', th_uploads: 'Uploads',
         th_likes: 'Likes', th_dislikes: 'Dislikes', th_actions: 'Actions',
@@ -68,7 +68,7 @@ const i18n = {
         uploads: 'Songs', subscribers: 'Subscribers', uploaded_songs: 'Uploaded songs',
         my_playlists: 'My Playlists', create_playlist: '+ Create Playlist',
         select_playlist: 'Select playlist:', cancel: 'Cancel', save_changes: 'Save changes',
-        play_all: '▶ Play all', history: 'Listening history', clear_history: 'Clear history',
+        play_all: '<i class="ph ph-play" style="margin-right: 4px;"></i> Play all', history: 'Listening history', clear_history: 'Clear history',
         recommended: 'Recommended', liked_songs: 'Liked songs',
         disliked_songs: 'Disliked songs', playlists: 'Playlists',
         subscriptions: 'Subscriptions', see_more: 'See more', delete: 'Delete',
@@ -91,6 +91,21 @@ function t(key) {
     const lang = localStorage.getItem('syncplay_lang') || 'vi';
     return (i18n[lang] && i18n[lang][key]) || key;
 }
+
+const originalFetch = window.fetch;
+window.fetch = async function(...args) {
+    const response = await originalFetch(...args);
+    if (response.status === 401) {
+        const url = typeof args[0] === 'string' ? args[0] : (args[0] && args[0].url ? args[0].url : '');
+        if (url && !url.includes('/api/auth/login')) {
+            if (typeof app !== 'undefined' && typeof app.logout === 'function') {
+                app.showToast('Phiên đăng nhập hết hạn hoặc không hợp lệ. Vui lòng đăng nhập lại.', true);
+                app.logout();
+            }
+        }
+    }
+    return response;
+};
 
 const app = {
     state: {
@@ -308,7 +323,7 @@ const app = {
             if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                 el.placeholder = t(key);
             } else {
-                el.textContent = t(key);
+                el.innerHTML = t(key);
             }
         });
     },
@@ -463,9 +478,19 @@ const app = {
             return;
         }
 
+        // SVG icons cho Source Tags (platform recognition)
+        const badgeIcons = {
+            LOCAL: `<svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>`,
+            YOUTUBE: `<svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`,
+            SPOTIFY: `<svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>`,
+            SOUNDCLOUD: `<svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M11.17 12.18v9.82H2c-1.1 0-2-.9-2-2v-4.44c0-2.02 1.35-3.8 3.26-4.27.47-1.89 2.18-3.3 4.22-3.3 1.25 0 2.39.53 3.2 1.38.16.17.31.35.49.81zm10.83-1.34c0-.85-.68-1.54-1.54-1.54-.34 0-.66.11-.93.31l-7.07 5.14v7.25h9.54v-11.16z"/></svg>`
+        };
+
         mediaList.forEach(m => {
             const card = document.createElement('div');
             card.className = 'media-card';
+            // data-source cho CSS Cinematic Glow theo platform
+            card.setAttribute('data-source', m.sourceType);
             card.onclick = (e) => {
                 if (this.state.isSelectionMode) {
                     this.toggleCardSelection(card, e);
@@ -474,14 +499,19 @@ const app = {
                 }
             };
 
-            let badgeClass = m.sourceType === 'LOCAL' ? 'badge-local' : (m.sourceType === 'YOUTUBE' ? 'badge-youtube' : 'badge-spotify');
+            let badgeClass = m.sourceType === 'LOCAL' ? 'badge-local' : (m.sourceType === 'YOUTUBE' ? 'badge-youtube' : (m.sourceType === 'SOUNDCLOUD' ? 'badge-soundcloud' : 'badge-spotify'));
+            let badgeIcon = badgeIcons[m.sourceType] || badgeIcons.LOCAL;
 
+            // Thumbnail với zoom structure + cinematic fallback
             let thumbnailContent = '';
             if (m.sourceType === 'YOUTUBE') {
                 const ytId = m.resource.includes('v=') ? m.resource.split('v=')[1].split('&')[0] : m.resource.split('/').pop();
                 thumbnailContent = `<img src="https://img.youtube.com/vi/${ytId}/maxresdefault.jpg" style="width:100%;height:100%;object-fit:cover;" loading="lazy">`;
             } else {
-                thumbnailContent = `<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1033,#312e81,#1e1b4b);display:flex;align-items:center;justify-content:center;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(165,180,252,0.6)" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>`;
+                // Cinematic fallback: gradient + icon Play chìm (opacity 20%)
+                thumbnailContent = `<div class="thumb-fallback thumb-zoom-target">
+                    <svg class="fallback-play-icon" width="48" height="48" viewBox="0 0 24 24" fill="rgba(240,140,90,0.9)" style="filter: drop-shadow(0 2px 8px rgba(224,90,58,0.3));"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </div>`;
             }
 
             let tagsHtml = '';
@@ -492,7 +522,7 @@ const app = {
             let uploaderHtml = '';
             if (m.channelName) {
                 uploaderHtml = `<div style="font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; margin-top: 4px; display: flex; align-items: center; gap: 4px;" title="Người đăng">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <i class="ph ph-user" style="font-size: 12px;"></i>
                     ${m.channelName} &bull; ${m.views !== undefined ? m.views : 0} <span data-i18n="views">lượt xem</span>
                 </div>`;
             }
@@ -502,7 +532,7 @@ const app = {
     controlsContent = `
         <div class="kebab-container" style="position:absolute;top:-4px;right:-8px;z-index:10;" onclick="event.stopPropagation()">
             <button class="btn-kebab" onclick="app.openKebabMenu(event, '${m.id}', '${m.channelName}')" style="background:transparent; border:none; color:var(--text-color); cursor:pointer; padding:4px; opacity:0.7; transition:opacity 0.2s;" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.7">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"></circle><circle cx="12" cy="5" r="1.5"></circle><circle cx="12" cy="19" r="1.5"></circle></svg>
+                <i class="ph ph-dots-three-vertical" style="font-size: 20px;"></i>
             </button>
         </div>`;
 }
@@ -511,14 +541,14 @@ const app = {
     <input type="checkbox" class="batch-delete-cb" value="${m.id}" onchange="app.updateBatchDeleteBtn()">
             <div class="media-card-thumbnail" style="position:relative; border-radius:12px; overflow:hidden;">
         ${thumbnailContent}
-        <span class="media-source-badge ${badgeClass}" style="position:absolute;bottom:8px;right:8px;top:auto;">${m.sourceType}</span>
+        <span class="media-source-badge ${badgeClass}">${badgeIcon}${m.sourceType}</span>
     </div>
     <div class="media-card-content" style="display:flex; gap:12px; margin-top:12px; padding:0;">
-        <div class="channel-avatar" style="width:36px;height:36px;font-size:0.95rem;flex-shrink:0;border-radius:50%;background:linear-gradient(135deg, #3b82f6, #8b5cf6);display:flex;align-items:center;justify-content:center;font-weight:bold;color:white;box-shadow:0 2px 5px rgba(0,0,0,0.2);">${m.channelName.charAt(0).toUpperCase()}</div>
+        <div class="channel-avatar" style="width:36px;height:36px;font-size:0.95rem;flex-shrink:0;">${m.channelName.charAt(0).toUpperCase()}</div>
         <div class="media-card-info" style="flex:1; min-width:0; position:relative; padding-right: 24px;">
-            <div class="media-card-title" title="${m.title}${m.author || m.Author ? ' - ' + (m.author || m.Author) : ''}" style="font-size:1rem; font-weight:600; line-height:1.4; color:var(--text-color); display: flex; align-items: baseline; margin-top: 4px;">
+            <div class="media-card-title" title="${m.title}${m.author || m.Author ? ' - ' + (m.author || m.Author) : ''}" style="font-size:1rem; font-weight:700; line-height:1.4; color:#f8f8f2; display: flex; align-items: baseline; margin-top: 4px;">
                 <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 1;">${m.title}</span>
-                ${m.author || m.Author ? `<span style=\"white-space: nowrap; flex-shrink: 0; color: var(--text-muted); font-weight: 400; font-size: 0.9em;\">&nbsp;- ${m.author || m.Author}</span>` : ''}
+                ${m.author || m.Author ? `<span style=\"white-space: nowrap; flex-shrink: 0; color: #9ca3af; font-weight: 400; font-size: 0.85em;\">&nbsp;- ${m.author || m.Author}</span>` : ''}
             </div>
             ${tagsHtml}
               ${uploaderHtml}
@@ -676,6 +706,10 @@ const app = {
                 playerContainer.className += ' spotify-player';
                 playerHTML = `<iframe src="${embedUrl}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`;
                 app.startWatchTimeTracking();
+            } else if (media.SourceType === 'SOUNDCLOUD') {
+                playerContainer.className += ' soundcloud-player';
+                playerHTML = `<iframe src="${media.MediaResource}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`;
+                app.startWatchTimeTracking();
             }
 
             // Append autoplay overlay
@@ -686,7 +720,7 @@ const app = {
                         <div class="autoplay-thumbnail" style="cursor:pointer; position: relative; display: flex; align-items: center; justify-content: center;" onclick="app.playNext()">
                             <div id="autoplayNextImg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
                             <div style="position: absolute; z-index: 2; background: rgba(0,0,0,0.6); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); transition: background 0.2s, transform 0.2s;" onmouseenter="this.style.background='var(--accent-primary)'; this.style.transform='scale(1.1)';" onmouseleave="this.style.background='rgba(0,0,0,0.6)'; this.style.transform='scale(1)';">
-                                <svg viewBox="0 0 24 24" fill="white" width="24" height="24" style="margin-left: 4px;"><path d="M8 5v14l11-7z"/></svg>
+                                <i class="ph ph-play-circle" style="font-size: 24px; color: white;"></i>
                             </div>
                         </div>
                         <div class="autoplay-title" id="autoplayNextTitle"></div>
@@ -744,7 +778,7 @@ const app = {
                                 const ytId = m.resource.includes('v=') ? m.resource.split('v=')[1].split('&')[0] : m.resource.split('/').pop();
                                 thumb = `<img class="sidebar-thumb-el" src="https://img.youtube.com/vi/${ytId}/mqdefault.jpg" style="width:168px;height:94px;object-fit:cover;border-radius:8px;flex-shrink:0;">`;
                             } else {
-                                thumb = `<div class="sidebar-thumb-el" style="width:168px;height:94px;background:linear-gradient(135deg,#1a1033,#312e81);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(165,180,252,0.6)" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>`;
+                                thumb = `<div class="sidebar-thumb-el" style="width:168px;height:94px;background:linear-gradient(135deg,#1c1210,#3d2218);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="ph ph-music-note" style="font-size: 28px; color: rgba(240,140,90,0.6);"></i></div>`;
                             }
                             const isActive = String(m.id) === String(currentMediaId);
                             const item = document.createElement('div');
@@ -783,7 +817,7 @@ const app = {
                         const ytId = m.resource.includes('v=') ? m.resource.split('v=')[1].split('&')[0] : m.resource.split('/').pop();
                         thumb = `<img class="sidebar-thumb-el" src="https://img.youtube.com/vi/${ytId}/mqdefault.jpg" style="width:168px;height:94px;object-fit:cover;border-radius:8px;flex-shrink:0;">`;
                     } else {
-                        thumb = `<div class="sidebar-thumb-el" style="width:168px;height:94px;background:linear-gradient(135deg,#1a1033,#312e81);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(165,180,252,0.6)" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>`;
+                        thumb = `<div class="sidebar-thumb-el" style="width:168px;height:94px;background:linear-gradient(135deg,#1c1210,#3d2218);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="ph ph-music-note" style="font-size: 28px; color: rgba(240,140,90,0.6);"></i></div>`;
                     }
                     const item = document.createElement('div');
                     item.className = 'sidebar-video-item media-card';
@@ -1345,9 +1379,19 @@ const app = {
             return;
         }
 
+        // SVG icons cho Source Tags (platform recognition)
+        const badgeIcons = {
+            LOCAL: `<svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>`,
+            YOUTUBE: `<svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`,
+            SPOTIFY: `<svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>`,
+            SOUNDCLOUD: `<svg class="badge-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M11.17 12.18v9.82H2c-1.1 0-2-.9-2-2v-4.44c0-2.02 1.35-3.8 3.26-4.27.47-1.89 2.18-3.3 4.22-3.3 1.25 0 2.39.53 3.2 1.38.16.17.31.35.49.81zm10.83-1.34c0-.85-.68-1.54-1.54-1.54-.34 0-.66.11-.93.31l-7.07 5.14v7.25h9.54v-11.16z"/></svg>`
+        };
+
         mediaList.forEach(m => {
             const card = document.createElement('div');
             card.className = 'media-card';
+            // data-source cho CSS Cinematic Glow theo platform
+            card.setAttribute('data-source', m.sourceType);
             card.onclick = (e) => {
                 if (this.state.isSelectionMode) {
                     this.toggleCardSelection(card, e);
@@ -1356,14 +1400,18 @@ const app = {
                 }
             };
 
-            let badgeClass = m.sourceType === 'LOCAL' ? 'badge-local' : (m.sourceType === 'YOUTUBE' ? 'badge-youtube' : 'badge-spotify');
+            let badgeClass = m.sourceType === 'LOCAL' ? 'badge-local' : (m.sourceType === 'YOUTUBE' ? 'badge-youtube' : (m.sourceType === 'SOUNDCLOUD' ? 'badge-soundcloud' : 'badge-spotify'));
+            let badgeIcon = badgeIcons[m.sourceType] || badgeIcons.LOCAL;
 
             let thumbnailContent = '';
             if (m.sourceType === 'YOUTUBE') {
                 const ytId = m.resource.includes('v=') ? m.resource.split('v=')[1].split('&')[0] : m.resource.split('/').pop();
                 thumbnailContent = `<img src="https://img.youtube.com/vi/${ytId}/maxresdefault.jpg" style="width:100%;height:100%;object-fit:cover;" loading="lazy">`;
             } else {
-                thumbnailContent = `<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1033,#312e81,#1e1b4b);display:flex;align-items:center;justify-content:center;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(165,180,252,0.6)" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>`;
+                // Cinematic fallback: gradient + icon Play chìm (opacity 20%)
+                thumbnailContent = `<div class="thumb-fallback thumb-zoom-target">
+                    <svg class="fallback-play-icon" width="48" height="48" viewBox="0 0 24 24" fill="rgba(240,140,90,0.9)" style="filter: drop-shadow(0 2px 8px rgba(224,90,58,0.3));"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </div>`;
             }
 
             let controlsContent = '';
@@ -1371,7 +1419,7 @@ const app = {
     controlsContent = `
         <div class="kebab-container" style="position:absolute;top:-4px;right:-8px;z-index:10;" onclick="event.stopPropagation()">
             <button class="btn-kebab" onclick="app.openKebabMenu(event, '${m.id}', '${m.channelName}')" style="background:transparent; border:none; color:var(--text-color); cursor:pointer; padding:4px; opacity:0.7; transition:opacity 0.2s;" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.7">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"></circle><circle cx="12" cy="5" r="1.5"></circle><circle cx="12" cy="19" r="1.5"></circle></svg>
+                <i class="ph ph-dots-three-vertical" style="font-size: 20px;"></i>
             </button>
         </div>`;
 }
@@ -1384,7 +1432,7 @@ const app = {
             let uploaderHtml = '';
             if (m.channelName) {
                 uploaderHtml = `<div style="font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; margin-top: 4px; display: flex; align-items: center; gap: 4px;" title="Người đăng">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <i class="ph ph-user" style="font-size: 12px;"></i>
                     ${m.channelName} &bull; ${m.views !== undefined ? m.views : 0} <span data-i18n="views">lượt xem</span>
                 </div>`;
             }
@@ -1393,14 +1441,14 @@ const app = {
     <input type="checkbox" class="batch-delete-cb" value="${m.id}" onchange="app.updateBatchDeleteBtn()">
             <div class="media-card-thumbnail" style="position:relative; border-radius:12px; overflow:hidden;">
         ${thumbnailContent}
-        <span class="media-source-badge ${badgeClass}" style="position:absolute;bottom:8px;right:8px;top:auto;">${m.sourceType}</span>
+        <span class="media-source-badge ${badgeClass}">${badgeIcon}${m.sourceType}</span>
     </div>
     <div class="media-card-content" style="display:flex; gap:12px; margin-top:12px; padding:0;">
-        <div class="channel-avatar" style="width:36px;height:36px;font-size:0.95rem;flex-shrink:0;border-radius:50%;background:linear-gradient(135deg, #3b82f6, #8b5cf6);display:flex;align-items:center;justify-content:center;font-weight:bold;color:white;box-shadow:0 2px 5px rgba(0,0,0,0.2);">${m.channelName.charAt(0).toUpperCase()}</div>
+        <div class="channel-avatar" style="width:36px;height:36px;font-size:0.95rem;flex-shrink:0;">${m.channelName.charAt(0).toUpperCase()}</div>
         <div class="media-card-info" style="flex:1; min-width:0; position:relative; padding-right: 24px;">
-            <div class="media-card-title" title="${m.title}${m.author || m.Author ? ' - ' + (m.author || m.Author) : ''}" style="font-size:1rem; font-weight:600; line-height:1.4; color:var(--text-color); display: flex; align-items: baseline; margin-top: 4px;">
+            <div class="media-card-title" title="${m.title}${m.author || m.Author ? ' - ' + (m.author || m.Author) : ''}" style="font-size:1rem; font-weight:700; line-height:1.4; color:#f8f8f2; display: flex; align-items: baseline; margin-top: 4px;">
                 <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 1;">${m.title}</span>
-                ${m.author || m.Author ? `<span style=\"white-space: nowrap; flex-shrink: 0; color: var(--text-muted); font-weight: 400; font-size: 0.9em;\">&nbsp;- ${m.author || m.Author}</span>` : ''}
+                ${m.author || m.Author ? `<span style=\"white-space: nowrap; flex-shrink: 0; color: #9ca3af; font-weight: 400; font-size: 0.85em;\">&nbsp;- ${m.author || m.Author}</span>` : ''}
             </div>
             ${tagsHtml}
               ${uploaderHtml}
@@ -1671,7 +1719,7 @@ const app = {
                         const ytId = m.resource.includes('v=') ? m.resource.split('v=')[1].split('&')[0] : m.resource.split('/').pop();
                         thumb = `<img src="https://img.youtube.com/vi/${ytId}/mqdefault.jpg" style="width:120px;height:68px;object-fit:cover;border-radius:8px;flex-shrink:0;">`;
                     } else {
-                        thumb = `<div style="width:120px;height:68px;background:linear-gradient(135deg,#1a1033,#312e81);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(165,180,252,0.6)" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>`;
+                        thumb = `<div style="width:120px;height:68px;background:linear-gradient(135deg,#1c1210,#3d2218);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(240,140,90,0.6)" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>`;
                     }
                     list.innerHTML += `
                         <div style="display:flex;gap:1rem;padding:0.8rem;border-radius:8px;cursor:pointer;transition:background 0.2s;" onmouseenter="this.style.background='var(--bg-surface-hover)'" onmouseleave="this.style.background='transparent'" onclick="app.navigate('watch','${m.id}')">
@@ -1839,9 +1887,9 @@ const app = {
                         <td><input type="checkbox" class="admin-media-cb" value="${m.MediaID}" onchange="app.updateAdminMediaSelectedCount()"></td>
                         <td>${m.MediaID}</td>
                         <td><a href="#watch/${m.MediaID}" style="color:var(--accent-primary);text-decoration:none;">${m.Title}${m.Author && m.Author !== '' ? ' - ' + m.Author : ''}</a></td>
-                        <td><span style="font-size:0.8rem;padding:2px 8px;border-radius:4px;background:${m.SourceType === 'YOUTUBE' ? 'rgba(255,0,51,0.15);color:#ff4466' : m.SourceType === 'SPOTIFY' ? 'rgba(29,185,84,0.15);color:#1db954' : 'rgba(59,130,246,0.15);color:#60a5fa'};">${m.SourceType}</span></td>
+                        <td><span style="font-size:0.8rem;padding:2px 8px;border-radius:4px;background:${m.SourceType === 'YOUTUBE' ? 'rgba(255,0,51,0.15);color:#ff4466' : m.SourceType === 'SPOTIFY' ? 'rgba(29,185,84,0.15);color:#1db954' : m.SourceType === 'SOUNDCLOUD' ? 'rgba(255,85,0,0.15);color:#ff5500' : 'rgba(59,130,246,0.15);color:#60a5fa'};">${m.SourceType}</span></td>
                         <td>${m.ViewsCount}</td>
-                        <td>👍 ${m.TotalLikes} / 👎 ${m.TotalDislikes}</td>
+                        <td><i class="ph ph-thumbs-up"></i> ${m.TotalLikes} / <i class="ph ph-thumbs-down"></i> ${m.TotalDislikes}</td>
                         <td><button class="btn btn-secondary" style="color:#ef4444;border-color:#ef4444;padding:0.2rem 0.5rem;font-size:0.8rem;" onclick="app.adminDeleteUserMedia(${m.MediaID},'${username}')">Xóa</button></td>`;
                     tbody.appendChild(tr);
                 });

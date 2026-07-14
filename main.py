@@ -195,6 +195,11 @@ def extract_embed_url(url: str, source_type: str) -> str:
         if match:
             track_id = match.group(1)
             return f"https://open.spotify.com/embed/track/{track_id}"
+    elif source_type == 'SOUNDCLOUD':
+        if "soundcloud.com/" in url:
+            import urllib.parse
+            encoded_url = urllib.parse.quote(url, safe='')
+            return f"https://w.soundcloud.com/player/?url={encoded_url}&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
     
     raise HTTPException(status_code=400, detail="Invalid URL format or unsupported SourceType")
 
@@ -416,8 +421,8 @@ async def add_link_media(
     if media_count >= max_uploads:
         raise HTTPException(status_code=403, detail="You have reached your maximum upload limit")
 
-    if source_type not in ["YOUTUBE", "SPOTIFY"]:
-        raise HTTPException(status_code=400, detail="Invalid SourceType. Must be YOUTUBE or SPOTIFY")
+    if source_type not in ["YOUTUBE", "SPOTIFY", "SOUNDCLOUD"]:
+        raise HTTPException(status_code=400, detail="Invalid SourceType. Must be YOUTUBE, SPOTIFY, or SOUNDCLOUD")
         
     embed_url = extract_embed_url(url, source_type)
     

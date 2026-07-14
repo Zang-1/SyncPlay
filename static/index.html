@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SyncPlay - Nền tảng stream nhạc & video đa nguồn. Xem YouTube, Spotify và upload video cá nhân.">
+    <meta name="description" content="SyncPlay - Nền tảng stream nhạc & video đa nguồn. Xem YouTube, Spotify, SoundCloud và upload video cá nhân.">
     <title>SyncPlay — Premium Multi-Source Streaming</title>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="css/style.css?v=1781577622260">
 </head>
 <body>
@@ -18,10 +19,13 @@
     <nav class="navbar">
         <div class="navbar-left">
             <button class="icon-btn" style="margin-right: 16px;" onclick="app.toggleSidebar()">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M21 6H3V5h18v1zm0 5H3v1h18v-1zm0 6H3v1h18v-1z"></path></svg>
+                <i class="ph ph-list" style="font-size: 24px;"></i>
             </button>
-            <div class="navbar-brand" onclick="app.goHome()" style="position: relative;">
-                SyncPlay<span style="font-size: 10px; color: var(--text-muted); position: absolute; top: 0px; right: -16px;">VN</span>
+            <div class="navbar-brand" onclick="app.goHome()" style="display: flex; align-items: flex-start; cursor: pointer; text-decoration: none;">
+                <span style="font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.45rem; letter-spacing: -0.5px; line-height: 1;">
+                    Sync<span style="background: linear-gradient(135deg, #e05a3a, #d4a030); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Play</span>
+                </span>
+                <span style="font-size: 10px; color: var(--text-muted); font-weight: 600; margin-left: 4px; margin-top: 2px;">VN</span>
             </div>
         </div>
         
@@ -29,7 +33,7 @@
             <div class="search-box">
                 <input type="text" id="searchInput" class="search-input" placeholder="Tìm kiếm" data-i18n="search_placeholder" onkeyup="app.handleSearch(event)">
                 <button class="search-btn">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M20.87,20.17l-5.59-5.59C16.35,13.35,17,11.75,17,10c0-3.87-3.13-7-7-7s-7,3.13-7,7s3.13,7,7,7c1.75,0,3.35-0.65,4.58-1.71 l5.59,5.59L20.87,20.17z M10,16c-3.31,0-6-2.69-6-6s2.69-6,6-6s6,2.69,6,6S13.31,16,10,16z"/></svg>
+                    <i class="ph ph-magnifying-glass" style="font-size: 20px;"></i>
                 </button>
             </div>
         </div>
@@ -54,29 +58,32 @@
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="app.toggleSidebar()"></div>
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header" style="display: flex; align-items: center; padding: 0.5rem 1.5rem 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 0.5rem;">
-            <button class="icon-btn" onclick="app.toggleSidebar()" style="margin-right: 16px; border: 1px solid rgba(255,255,255,0.6);">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M21 6H3V5h18v1zm0 5H3v1h18v-1zm0 6H3v1h18v-1z"></path></svg>
+            <button class="icon-btn" onclick="app.toggleSidebar()" style="margin-right: 16px; border: 1px solid rgba(255,255,255,0.1);">
+                <i class="ph ph-list" style="font-size: 24px;"></i>
             </button>
-            <div class="navbar-brand" onclick="app.goHome(); app.toggleSidebar();" style="position: relative; font-size: 1.35rem;">
-                SyncPlay
+            <div class="navbar-brand" onclick="app.goHome(); app.toggleSidebar();" style="display: flex; align-items: flex-start; cursor: pointer; text-decoration: none;">
+                <span style="font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.45rem; letter-spacing: -0.5px; line-height: 1;">
+                    Sync<span style="background: linear-gradient(135deg, #e05a3a, #d4a030); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Play</span>
+                </span>
+                <span style="font-size: 10px; color: var(--text-muted); font-weight: 600; margin-left: 4px; margin-top: 2px;">VN</span>
             </div>
         </div>
         <div class="sidebar-item" onclick="app.goHome(); app.toggleSidebar();">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M12 2L2 12h3v8h14v-8h3L12 2zm6 16h-4v-6h-4v6H6v-7.81l6-6 6 6V18z"/></svg> <span data-i18n="home">Trang chủ</span>
+            <i class="ph ph-house" style="font-size: 24px;"></i> <span data-i18n="home">Trang chủ</span>
         </div>
         <div class="sidebar-divider"></div>
         <div class="sidebar-item" onclick="app.loadLikedMedia(); app.toggleSidebar();">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg> <span data-i18n="liked_songs">Bài hát đã thích</span>
+            <i class="ph ph-thumbs-up" style="font-size: 24px;"></i> <span data-i18n="liked_songs">Bài hát đã thích</span>
         </div>
         <div class="sidebar-item" onclick="app.loadDislikedMedia(); app.toggleSidebar();">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg> <span data-i18n="disliked_songs">Bài hát không thích</span>
+            <i class="ph ph-thumbs-down" style="font-size: 24px;"></i> <span data-i18n="disliked_songs">Bài hát không thích</span>
         </div>
         <div class="sidebar-divider"></div>
         <div class="sidebar-item" onclick="app.navigate('playlists'); app.toggleSidebar();">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M15 6H3v2h12V6zm0 4H3v2h12v-2zM3 16h8v-2H3v2zM17 6v8.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V8h3V6h-5z"/></svg> <span data-i18n="playlists">Playlist</span>
+            <i class="ph ph-playlist" style="font-size: 24px;"></i> <span data-i18n="playlists">Playlist</span>
         </div>
         <div class="sidebar-item" onclick="app.navigate('history'); app.toggleSidebar();">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg> <span data-i18n="history">Lịch sử nghe</span>
+            <i class="ph ph-clock-counter-clockwise" style="font-size: 24px;"></i> <span data-i18n="history">Lịch sử nghe</span>
         </div>
         <div class="sidebar-divider"></div>
         <div id="sidebarSubscriptionsArea" style="display: none;">
@@ -85,7 +92,7 @@
                 <!-- Subscriptions will be injected here -->
             </div>
             <div class="sidebar-item" id="btnShowMoreSubs" style="display: none;" onclick="app.showMoreSubscriptions()">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg> <span data-i18n="see_more">Xem thêm</span>
+                <i class="ph ph-caret-down" style="font-size: 24px;"></i> <span data-i18n="see_more">Xem thêm</span>
             </div>
             <div class="sidebar-divider"></div>
         </div>
@@ -102,10 +109,10 @@
         <section id="view-home" class="view-section active">
             <div class="home-top-bar">
                 <button class="btn-category" style="display: flex; align-items: center; justify-content: center; gap: 8px; flex-shrink: 0; height: 34px; box-sizing: border-box;" onclick="app.goHome()">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 2L2 12h3v8h14v-8h3L12 2zm6 16h-4v-6h-4v6H6v-7.81l6-6 6 6V18z"/></svg> <span data-i18n="home">Trang chủ</span>
+                    <i class="ph ph-house" style="font-size: 18px;"></i> <span data-i18n="home">Trang chủ</span>
                 </button>
                 <button class="btn-category" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; flex-shrink: 0; margin-left: -4px; box-sizing: border-box;" onclick="app.loadTrending()" title="Làm mới">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.92-10.26l5.08 5.08"/></svg>
+                    <i class="ph ph-arrows-clockwise" style="font-size: 16px;"></i>
                 </button>
                 <div class="category-divider"></div>
                 <select class="sort-dropdown" id="sortDropdown" onchange="app.setSort(this.value)">
@@ -175,7 +182,7 @@
                 
                 <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
                     <button class="btn" id="tabLocal" onclick="app.switchUploadTab('LOCAL')" data-i18n="upload_local_tab">Upload File (Local)</button>
-                    <button class="btn btn-secondary" id="tabLink" onclick="app.switchUploadTab('LINK')" data-i18n="upload_link_tab">Chèn Link (YouTube/Spotify)</button>
+                    <button class="btn btn-secondary" id="tabLink" onclick="app.switchUploadTab('LINK')" data-i18n="upload_link_tab">Chèn Link (YouTube/Spotify/SoundCloud)</button>
                 </div>
 
                 <form id="uploadForm" onsubmit="app.handleUpload(event)">
@@ -223,6 +230,7 @@
                             <select id="uploadSourceType" class="form-control">
                                 <option value="YOUTUBE">YouTube</option>
                                 <option value="SPOTIFY">Spotify</option>
+                                <option value="SOUNDCLOUD">SoundCloud</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -257,21 +265,21 @@
                             <button class="btn" id="btnSubscribe" onclick="app.toggleSubscribe()" style="margin-left: 1rem;" data-i18n="subscribe">Đăng ký</button>
                         </div>
                         
-                        <div class="interaction-buttons">
-                            <button class="btn btn-secondary" style="color: #ef4444; border-color: #ef4444; display: none;" id="btnDeleteMedia" onclick="app.deleteMedia()">
-                                🗑️ <span data-i18n="delete_video">Xóa Video</span>
+                        <div class="interaction-buttons" style="display: flex; gap: 10px; margin-top: 10px;">
+                            <button class="btn btn-secondary" style="display: none;" id="btnDeleteMedia" onclick="app.deleteMedia()">
+                                <i class="ph ph-trash" style="font-size: 18px; margin-right: 4px; color: #dc2626;"></i> <span style="color: #dc2626;" data-i18n="delete_video">Xóa Video</span>
                             </button>
-                            <button class="btn btn-secondary" style="color: #3b82f6; border-color: #3b82f6; display: none;" id="btnEditMedia" onclick="app.openEditMediaModal()">
-                                ✏️ <span data-i18n="edit_video">Chỉnh sửa Video</span>
+                            <button class="btn btn-secondary" style="display: none;" id="btnEditMedia" onclick="app.openEditMediaModal()">
+                                <i class="ph ph-pencil-simple" style="font-size: 18px; margin-right: 4px; color: #3b82f6;"></i> <span data-i18n="edit_video">Chỉnh sửa Video</span>
                             </button>
                             <button class="btn btn-secondary" onclick="app.addToPlaylist(app.state.currentMediaId)">
-                                ➕ <span data-i18n="add_to_playlist">Thêm vào Playlist</span>
+                                <i class="ph ph-list-plus" style="font-size: 18px; margin-right: 4px;"></i> <span data-i18n="add_to_playlist">Thêm vào Playlist</span>
                             </button>
                             <button class="btn btn-secondary" id="btnLike" onclick="app.toggleLike(true)">
-                                👍 <span id="watchLikes">0</span>
+                                <i class="ph ph-thumbs-up" style="font-size: 18px; margin-right: 4px;"></i> <span id="watchLikes">0</span>
                             </button>
                             <button class="btn btn-secondary" id="btnDislike" onclick="app.toggleLike(false)">
-                                👎 <span id="watchDislikes">0</span>
+                                <i class="ph ph-thumbs-down" style="font-size: 18px; margin-right: 4px;"></i> <span id="watchDislikes">0</span>
                             </button>
                         </div>
                     </div>
@@ -306,7 +314,7 @@
         <!-- View: Admin Panel -->
         <section id="view-admin" class="view-section">
             <div class="glass-card" style="max-width: 600px; margin: 0 auto;">
-                <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem;" data-i18n="admin_settings">⚙️ Admin Settings</h2>
+                <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem;" data-i18n="admin_settings"><i class="ph ph-gear" style="margin-right: 8px;"></i> Admin Settings</h2>
                 <form id="adminForm" onsubmit="app.saveAdminSettings(event)">
                     <div class="form-group">
                         <label class="form-label" data-i18n="max_total_accounts">Max Total Accounts</label>
@@ -320,10 +328,10 @@
                     </div>
                     <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;" id="btnSaveAdmin" data-i18n="save_settings">Lưu Cài Đặt</button>
                 </form>
-                <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem; margin-top: 2rem;" data-i18n="admin_manage_users">👥 Quản Lý Tài Khoản</h2>
+                <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem; margin-top: 2rem;" data-i18n="admin_manage_users"><i class="ph ph-users" style="margin-right: 8px;"></i> Quản Lý Tài Khoản</h2>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
                     <button class="btn btn-secondary" onclick="app.loadAdminUsers()" data-i18n="admin_reload">Tải Lại</button>
-                    <button class="btn btn-secondary" style="color: #ef4444; border-color: #ef4444;" onclick="app.deleteSelectedUsers()" id="btnDeleteSelected" data-i18n="delete_selected">Xóa Đã Chọn (0)</button>
+                    <button class="btn btn-secondary" style="color: #dc2626; border-color: #dc2626;" onclick="app.deleteSelectedUsers()" id="btnDeleteSelected" data-i18n="delete_selected">Xóa Đã Chọn (0)</button>
                 </div>
                 <div style="overflow-x: auto;">
                     <table class="admin-table" id="adminUsersTable">
@@ -350,9 +358,9 @@
         <section id="view-admin-media" class="view-section">
             <div class="glass-card" style="max-width: 900px; margin: 0 auto;">
                 <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; margin-top: 2rem;">
-                    <button class="btn btn-secondary" onclick="app.navigate('admin')" style="flex-shrink:0;">⬅ <span data-i18n="go_back">Quay lại</span></button>
-                    <h2 style="font-size: 1.5rem; margin: 0; flex: 1;">🎵 <span data-i18n="songs_of">Bài Hát của</span>: <span id="adminMediaUsername" style="color: var(--accent-primary);"></span></h2>
-                    <button class="btn btn-secondary" style="color:#ef4444;border-color:#ef4444;display:none;flex-shrink:0;" id="btnAdminMediaBatchDelete" onclick="app.adminDeleteSelectedMedia()">Xóa đã chọn (<span id="adminMediaSelectedCount">0</span>)</button>
+                    <button class="btn btn-secondary" onclick="app.navigate('admin')" style="flex-shrink:0;"><i class="ph ph-arrow-left" style="margin-right: 4px;"></i> <span data-i18n="go_back">Quay lại</span></button>
+                    <h2 style="font-size: 1.5rem; margin: 0; flex: 1;"><i class="ph ph-music-notes" style="margin-right: 8px;"></i> <span data-i18n="songs_of">Bài Hát của</span>: <span id="adminMediaUsername" style="color: var(--accent-primary);"></span></h2>
+                    <button class="btn btn-secondary" style="color:#dc2626;border-color:#dc2626;display:none;flex-shrink:0;" id="btnAdminMediaBatchDelete" onclick="app.adminDeleteSelectedMedia()">Xóa đã chọn (<span id="adminMediaSelectedCount">0</span>)</button>
                 </div>
                 
                 <div style="overflow-x: auto;">
@@ -457,7 +465,7 @@
                                 <div class="profile-stat-label" data-i18n="total_likes">Tổng Lượt Thích</div>
                             </div>
                             <div class="profile-stat">
-                                <div class="profile-stat-value" id="profileTotalDislikes" style="color: #ef4444;">0</div>
+                                <div class="profile-stat-value" id="profileTotalDislikes" style="color: #dc2626;">0</div>
                                 <div class="profile-stat-label" data-i18n="total_dislikes">Tổng Không Thích</div>
                             </div>
                         </div>
@@ -469,7 +477,7 @@
                     <div style="display: none; gap: 8px;" id="profileActionBtns">
                         <button id="btnToggleSelection" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem;" onclick="app.toggleSelectionMode()">Chọn</button>
                         <button id="btnSelectAll" class="btn btn-secondary" style="display: none; font-size: 0.85rem; padding: 0.5rem 1rem;" onclick="app.selectAllMedia()">Chọn tất cả</button>
-                          <button id="btnBatchDelete" class="btn btn-admin" style="display: none; background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #ef4444;" onclick="app.deleteSelectedMedia()">Xóa <span id="batchDeleteCount">0</span> bài hát</button>
+                          <button id="btnBatchDelete" class="btn btn-admin" style="display: none; background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #dc2626;" onclick="app.deleteSelectedMedia()">Xóa <span id="batchDeleteCount">0</span> bài hát</button>
                     </div>
                 </div>
                 <div class="media-grid" id="profileMediaGrid"></div>
@@ -491,9 +499,9 @@
         <section id="view-playlist-detail" class="view-section">
             <div class="glass-card" style="max-width: 800px; margin: 0 auto;">
                 <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-                    <button class="btn btn-secondary" onclick="app.navigate('playlists')">⬅ <span data-i18n="go_back">Quay lại</span></button>
+                    <button class="btn btn-secondary" onclick="app.navigate('playlists')"><i class="ph ph-arrow-left" style="margin-right: 4px;"></i> <span data-i18n="go_back">Quay lại</span></button>
                     <h2 style="font-size: 1.5rem; font-weight: 700; flex: 1;" id="playlistDetailName">...</h2>
-                    <button class="btn btn-secondary" onclick="app.playAllPlaylist()" data-i18n="play_all">▶ Phát tất cả</button>
+                    <button class="btn btn-secondary" onclick="app.playAllPlaylist()" data-i18n="play_all"><i class="ph ph-play" style="margin-right: 4px;"></i> Phát tất cả</button>
                 </div>
                 <div id="playlistDetailItems"></div>
             </div>
@@ -504,7 +512,7 @@
             <div class="glass-card" style="max-width: 800px; margin: 0 auto;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                     <h2 style="font-size: 1.6rem; font-weight: 700;" data-i18n="history">Lịch sử nghe</h2>
-                    <button class="btn btn-secondary" style="color: #ef4444; border-color: #ef4444;" onclick="app.clearHistory()" data-i18n="clear_history">Xóa lịch sử</button>
+                    <button class="btn btn-secondary" style="color: #dc2626; border-color: #dc2626;" onclick="app.clearHistory()" data-i18n="clear_history">Xóa lịch sử</button>
                 </div>
                 <div class="history-list" id="historyList"></div>
             </div>
